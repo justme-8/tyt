@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TYT Geri Sayım</title>
+    
+    <!-- PWA Manifest Dosyası -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- PWA için Tema Rengi (iOS Safari için) -->
+    <meta name="theme-color" content="#B71C1C">
+    <!-- PWA için Apple Touch İkonu (isteğe bağlı ama önerilir) -->
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/B71C1C/FFFFFF?text=TYT">
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column; /* İçerikleri dikeyde sıralamak için */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Kırmızı ve tonlarında bir gradient */
+            background: linear-gradient(135deg, #B71C1C 0%, #F06292 100%); 
+            margin: 0;
+            color: white;
+            text-align: center;
+            overflow-x: hidden; /* Sadece yatay kaymayı engelle */
+            overflow-y: auto; /* Dikey kaymaya izin ver */
+            padding: 1rem; /* Kenar boşluğu eklendi */
+        }
+        .container {
+            /* Daha açık bir kırmızı tonu veya uyumlu bir renk */
+            background-color: rgba(255, 255, 255, 0.15); 
+            padding: 2rem 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25); /* Gölge biraz daha belirgin */
+            backdrop-filter: blur(8px); /* Blur efekti ayarlandı */
+            max-width: 90%;
+            width: 600px;
+            margin-top: 1.5rem; /* Üstteki yazı için boşluk */
+        }
+        .motivational-text {
+            font-size: 1.25rem; /* Yazı boyutu ayarlandı */
+            font-weight: 600;
+            margin-bottom: 2rem; /* Alt boşluk artırıldı */
+            color: rgba(255, 255, 255, 0.95); /* Yazı rengi */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Hafif metin gölgesi */
+            max-width: 700px; /* Metin genişliği sınırlandı */
+            line-height: 1.6; /* Satır yüksekliği */
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .countdown-item {
+            /* Kırmızı temaya uygun iç kutu rengi */
+            background-color: rgba(255, 255, 255, 0.2); 
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Hafif gölge */
+        }
+        .countdown-item span:first-child {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .countdown-item span:last-child {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.85); /* Etiket rengi ayarlandı */
+        }
+        .footer-text {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.75); /* Alt yazı rengi ayarlandı */
+        }
+
+        /* Mobil cihazlar için özel ayarlar */
+        @media (max-width: 600px) {
+            body {
+                 padding: 0.5rem; /* Mobil için padding ayarı */
+            }
+            .container {
+                padding: 1.5rem;
+                width: 95%; /* Mobil için genişlik */
+                margin-top: 1rem;
+            }
+            .motivational-text {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+                padding: 0 0.5rem; /* Metin kenarlara yapışmasın */
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .countdown-grid {
+                grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); /* Mobilde daha iyi sığması için minmax ayarı */
+                gap: 0.75rem; /* Mobilde aralık azaltıldı */
+            }
+            .countdown-item span:first-child {
+                font-size: 1.8rem; /* Mobilde rakam boyutu */
+            }
+             .countdown-item {
+                padding: 1rem 0.5rem; /* Mobilde padding */
+            }
+             .countdown-item span:last-child {
+                font-size: 0.75rem; /* Mobilde etiket boyutu */
+            }
+        }
+         @media (max-width: 400px) {
+            .countdown-grid {
+                grid-template-columns: 1fr; /* Tek sütun */
+            }
+            .countdown-item {
+                margin-bottom: 0.75rem; /* Tek sütunda aralık */
+                padding: 1rem;
+            }
+             .motivational-text {
+                font-size: 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p class="motivational-text">
+        Unutma, her bir saniye seni hayallerine biraz daha yaklaştırıyor. Azmin ve emeğin karşılıksız kalmayacak. Odaklan, inan ve başar!
+    </p>
+    <div class="container">
+        <h1>TYT 2025 Geri Sayım</h1>
+        <div id="countdown" class="countdown-grid">
+            <div class="countdown-item">
+                <span id="total-hours">--</span>
+                <span>Toplam Saat</span>
+            </div>
+            <div class="countdown-item">
+                <span id="minutes">--</span>
+                <span>Dakika</span>
+            </div>
+            <div class="countdown-item">
+                <span id="seconds">--</span>
+                <span>Saniye</span>
+            </div>
+        </div>
+        <p id="exam-message" class="footer-text"></p>
+        <p class="footer-text">Sınav Tarihi: 21 Haziran 2025, 10:15</p>
+    </div>
+
+    <script>
+        // Sınav tarihi ve saati (Yıl, Ay (0-11), Gün, Saat, Dakika, Saniye)
+        const examDate = new Date(2025, 5, 21, 10, 15, 0).getTime();
+
+        const countdownFunction = setInterval(() => {
+            const now = new Date().getTime();
+            const timeLeft = examDate - now;
+
+            const totalHours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("total-hours").innerText = totalHours < 10 && totalHours >= 0 ? '0' + totalHours : totalHours; 
+            document.getElementById("minutes").innerText = minutes < 10 && minutes >= 0 ? '0' + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 && seconds >= 0 ? '0' + seconds : seconds;
+            
+            const examMessageEl = document.getElementById("exam-message");
+
+            if (timeLeft < 0) {
+                clearInterval(countdownFunction);
+                const countdownDiv = document.getElementById("countdown");
+                countdownDiv.innerHTML = "<p style='grid-column: 1 / -1; font-size: 1.5rem; font-weight: bold;'>Sınav zamanı geldi! Başarılar!</p>";
+                countdownDiv.style.gridTemplateColumns = "1fr"; 
+                examMessageEl.innerText = "TYT 2025 sınavı başladı veya tamamlandı.";
+                document.getElementById("total-hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+            } else {
+                 examMessageEl.innerText = "Sınava kalan süre:";
+            }
+        }, 1000);
+
+        // Service Worker Kaydı
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js') // sw.js dosyasının doğru yolda olduğundan emin olun
+              .then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              })
+              .catch(error => {
+                console.log('ServiceWorker registration failed: ', error);
+              });
+          });
+        }
+    </script>
+</body>
+</html>
